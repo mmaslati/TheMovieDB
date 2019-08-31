@@ -1,4 +1,4 @@
-package com.mor.maslati.themoviedb.presenter;
+package com.mor.maslati.themoviedb.model;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mor.maslati.themoviedb.R;
+import com.mor.maslati.themoviedb.presenter.Engine;
 
 import java.util.concurrent.Callable;
 

@@ -27,6 +27,5 @@ public class MovieDetailsActivity extends AppCompatActivity {
         engine = Engine.getInstance(null,null);
         engine.showSelectedMovieInfo(getIntent(),moviePoster,titleTextview,yearTextview,ratingTextview,descriptionTextview);
 
-
     }
 }

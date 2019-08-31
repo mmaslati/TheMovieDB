@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mor.maslati.themoviedb.model.FavoriteMoviesHandler;
+import com.mor.maslati.themoviedb.model.Network;
 import com.mor.maslati.themoviedb.view.MovieDetailsActivity;
 import com.mor.maslati.themoviedb.view.MyRecyclerViewAdapter;
 import com.squareup.picasso.Picasso;
@@ -174,6 +176,30 @@ public class Engine {
 
             String Description = descriptionTextview.getText()+((String)movie.get("overview"));
             descriptionTextview.setText(Description);
+
+
+            // TESTING TESTING TESTING TESTING
+            /*
+            FavoriteMoviesHandler handler = new FavoriteMoviesHandler();
+
+            boolean isThisFavorite = handler.isThisAFavoriteMovie(context,movie);
+
+            if (!isThisFavorite){
+
+                handler.addMovieToFavorites(context,movie);
+            }
+
+            boolean isThisFavorite2 = handler.isThisAFavoriteMovie(context,movie);
+
+            if (isThisFavorite2){
+
+                handler.removeMovieFromFavorites(context,movie);
+            }
+
+            boolean isThisFavorite3 = handler.isThisAFavoriteMovie(context,movie);
+
+            */
+
 
         } catch (JSONException e) {
             e.printStackTrace();
