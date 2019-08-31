@@ -3,11 +3,14 @@ package com.mor.maslati.themoviedb.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
 import com.mor.maslati.themoviedb.R;
 import com.mor.maslati.themoviedb.presenter.Engine;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
 
     Engine engine;
@@ -30,13 +33,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void setUpAdapter(MyRecyclerViewAdapter adapter){
-
-
-
-
+    @Override
+    public void onItemClick(View view, int position) {
+        Log.d("MorDebug","position = "+String.valueOf(position));
     }
-
-
 }

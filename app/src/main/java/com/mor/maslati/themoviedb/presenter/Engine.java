@@ -103,7 +103,7 @@ public class Engine {
         // set up the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(context, moviesToShow);
-        //adapter.setClickListener(context);
+        adapter.setClickListener((MyRecyclerViewAdapter.ItemClickListener)context);
         recyclerView.setAdapter(adapter);
 
         //return adapter;
