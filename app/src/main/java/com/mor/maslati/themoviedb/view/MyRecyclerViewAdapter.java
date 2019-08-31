@@ -5,10 +5,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mor.maslati.themoviedb.R;
+import com.mor.maslati.themoviedb.presenter.Engine;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
@@ -19,6 +22,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private List<JSONObject> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+
+    private Engine engine = Engine.getInstance(null,null);
 
     // data is passed into the constructor
     //public MyRecyclerViewAdapter(Context context, List<String> data) {
@@ -37,12 +42,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //String movieTitle = mData.get(position);
         JSONObject movie = mData.get(position);
 
         String movieTitle = "Unknown";
         try {
+
             movieTitle = movie.getString("title");
+
+            engine.createPosterUrlAndShow(holder.movieThumbnail,movie.getString("poster_path"));
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -62,13 +71,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        ImageView movieThumbnail;
         TextView myTextView;
         LinearLayout rowLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.movieTitle);
-            rowLayout = itemView.findViewById(R.id.row);
+            myTextView      = itemView.findViewById(R.id.movieTitle);
+            movieThumbnail  = itemView.findViewById(R.id.movieThunmbnail);
+            rowLayout       = itemView.findViewById(R.id.row);
             itemView.setOnClickListener(this);
         }
 
