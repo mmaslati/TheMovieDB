@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,16 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mor.maslati.themoviedb.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> mData;
+    //private List<String> mData;
+    private List<JSONObject> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public MyRecyclerViewAdapter(Context context, List<String> data) {
+    //public MyRecyclerViewAdapter(Context context, List<String> data) {
+    public MyRecyclerViewAdapter(Context context, List<JSONObject> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -36,8 +42,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+        //String movieTitle = mData.get(position);
+        JSONObject movie = mData.get(position);
+
+        String movieTitle = "Unknown";
+        try {
+            movieTitle = movie.getString("title");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        holder.myTextView.setText(movieTitle);
+
+        holder.rowLayout.setTag(movie);
     }
 
     // total number of rows
@@ -49,11 +66,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         TextView myTextView;
+        LinearLayout rowLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
             myTextView = itemView.findViewById(R.id.movieTitle);
+            rowLayout = itemView.findViewById(R.id.row);
             itemView.setOnClickListener(this);
         }
 
@@ -66,7 +86,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // convenience method for getting data at click position
     String getItem(int id) {
-        return mData.get(id);
+        //return mData.get(id);
+        return "tempValue";
     }
 
     // allows clicks events to be caught

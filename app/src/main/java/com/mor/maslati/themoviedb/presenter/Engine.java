@@ -1,9 +1,12 @@
 package com.mor.maslati.themoviedb.presenter;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.mor.maslati.themoviedb.view.MovieDetailsActivity;
 import com.mor.maslati.themoviedb.view.MyRecyclerViewAdapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,13 +24,24 @@ import org.json.JSONObject;
 
 public class Engine {
 
-    public Engine(Context context, RecyclerView recyclerView) {
+    private static Engine INSTANCE = null;
+
+    private Engine(Context context, RecyclerView recyclerView) {
         this.recyclerView   = recyclerView;
         this.context        = context;
     }
 
+    public static Engine getInstance(Context context, RecyclerView recyclerView) {
+        if (INSTANCE == null) {
+            INSTANCE = new Engine(context,recyclerView);
+        }
+        return(INSTANCE);
+    }
+
     Context context;
     RecyclerView recyclerView;
+
+    public final String EXTRA_MOVIE_AS_STRING = "EXTRA_MOVIE_AS_STRING";
 
     private Map getTwoDatesOfRelease(){
 
@@ -68,7 +82,8 @@ public class Engine {
 
     public void filterMoviesAndAdd(String fullMoviesAsJSON){
 
-        ArrayList<String> movies = new ArrayList<>();
+        //ArrayList<String> movies = new ArrayList<>();
+        ArrayList<JSONObject> movies = new ArrayList<>();
 
 
         JSONObject reader;
@@ -85,7 +100,8 @@ public class Engine {
 
                 //Log.d("MorDebug","i = "+ String.valueOf(i)+": "+(String)movie.get("title"));
 
-                movies.add((String)movie.get("title"));
+                //movies.add((String)movie.get("title"));
+                movies.add(movie);
             }
 
 
@@ -98,7 +114,8 @@ public class Engine {
     }
 
 
-    private void fillUpList( ArrayList<String> moviesToShow ){
+    //private void fillUpList( ArrayList<String> moviesToShow ){
+    private void fillUpList( ArrayList<JSONObject> moviesToShow ){
 
         // set up the RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -107,6 +124,19 @@ public class Engine {
         recyclerView.setAdapter(adapter);
 
         //return adapter;
+    }
+
+    public void showSelectedMovie(JSONObject selectedMovie){
+
+
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+
+        String movieAsJson = selectedMovie.toString();
+        intent.putExtra(EXTRA_MOVIE_AS_STRING,movieAsJson);
+        context.startActivity(intent);
+
+
+
     }
 
 

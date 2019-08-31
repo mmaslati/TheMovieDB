@@ -9,6 +9,8 @@ import android.view.View;
 import com.mor.maslati.themoviedb.R;
 import com.mor.maslati.themoviedb.presenter.Engine;
 
+import org.json.JSONObject;
+
 
 public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
         RecyclerView recyclerView = findViewById(R.id.moviesShowingList);
 
-        engine = new Engine(this,recyclerView);
+        engine = Engine.getInstance(this,recyclerView);//new Engine(this,recyclerView);
     }
 
     @Override
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public void onItemClick(View view, int position) {
-        Log.d("MorDebug","position = "+String.valueOf(position));
+
+        JSONObject movie = (JSONObject)view.getTag();
+
+        engine.showSelectedMovie(movie);
     }
 }
