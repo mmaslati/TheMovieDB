@@ -2,12 +2,16 @@ package com.mor.maslati.themoviedb.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mor.maslati.themoviedb.view.MovieDetailsActivity;
 import com.mor.maslati.themoviedb.view.MyRecyclerViewAdapter;
+import com.squareup.picasso.Picasso;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -134,6 +138,47 @@ public class Engine {
         String movieAsJson = selectedMovie.toString();
         intent.putExtra(EXTRA_MOVIE_AS_STRING,movieAsJson);
         context.startActivity(intent);
+
+    }
+
+    public void createPosterUrlAndShow(ImageView posterImageView, String posterImageName){
+
+        String baseImagesUrl = "https://image.tmdb.org/t/p/w500";
+
+        Picasso.get()
+                .load(baseImagesUrl+posterImageName)
+                .into(posterImageView);
+
+    }
+
+
+    public void showSelectedMovieInfo(Intent intent, ImageView posterImageview, TextView titleTextview, TextView yearTextview, TextView ratingTextview, TextView descriptionTextview){
+
+        String movieAsString = intent.getStringExtra(EXTRA_MOVIE_AS_STRING);
+
+        JSONObject movie;
+
+        try {
+            movie = new JSONObject(movieAsString);
+
+            createPosterUrlAndShow(posterImageview,(String)movie.get("poster_path"));
+
+            String Title = titleTextview.getText()+((String)movie.get("title"));
+            titleTextview.setText(Title);
+
+            String Year = yearTextview.getText()+((String)movie.get("release_date")).substring(0,4);
+            yearTextview.setText(Year);
+
+            String Rating = ratingTextview.getText()+(String.valueOf(movie.get("vote_average")));
+            ratingTextview.setText(Rating);
+
+            String Description = descriptionTextview.getText()+((String)movie.get("overview"));
+            descriptionTextview.setText(Description);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
 
 

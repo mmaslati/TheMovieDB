@@ -1,14 +1,13 @@
 package com.mor.maslati.themoviedb.view;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import com.mor.maslati.themoviedb.R;
 import com.mor.maslati.themoviedb.presenter.Engine;
-
 import org.json.JSONObject;
 
 
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         super.onStart();
 
         engine.getMoviesToList();
+
     }
 
 
