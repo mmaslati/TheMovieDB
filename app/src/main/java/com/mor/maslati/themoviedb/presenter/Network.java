@@ -11,17 +11,22 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mor.maslati.themoviedb.R;
 
+import java.util.concurrent.Callable;
+
 public class Network {
 
+    Engine engine;
+    final String limitToEnglish = "&language=en";
     String key;
     String baseUrl;
     Context context;
 
-    public Network(Context context) {
+    public Network(Context context, Engine engine) {
 
         this.context = context;
+        this.engine  = engine;
         this.baseUrl = context.getString(R.string.movie_db_url);
-        this.key     = context.getString(R.string.movie_db_api_key);
+        this.key     = "&api_key="+context.getString(R.string.movie_db_api_key);
     }
 
 
@@ -35,13 +40,19 @@ public class Network {
         queue.add(stringRequest);
     }
 
-    public void getMoviesInTheaters(String from, String until){
+
+    public void getMoviesInTheaters(String from, String until ){
+
+
 
         Response.Listener successGettingMovies = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // Display the first 500 characters of the response string.
+
                 Log.d("MorDebug",response);
+
+                engine.filterMoviesAndAdd(response);
+
             }
         };
 
@@ -56,7 +67,9 @@ public class Network {
         //2019-07-26
         // = 37 Days
 
-        String getMoviesUrl = baseUrl+"/discover/movie?primary_release_date.gte="+from+"&primary_release_date.lte="+until  ;
+        String getMoviesUrl = baseUrl+"/discover/movie?primary_release_date.gte="+from+"&primary_release_date.lte="+until+this.key+limitToEnglish  ;
+
+        Log.d("MorDebug",getMoviesUrl);
 
         sendIt(getMoviesUrl,successGettingMovies,failedGettingMovies);
     }
